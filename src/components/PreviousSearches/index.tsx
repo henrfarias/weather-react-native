@@ -1,13 +1,13 @@
 import React from 'react';
 import { Text } from 'react-native';
-import { ICity } from '../../types/ICity'; 
+import { CityStore } from '../../store/reducers/previousCitys.reducer';
 import { ContainerSearches, Title, List } from './styles';
 
 import PreviousItem from '../PreviousItem';
 
 
 type PreviousListProps = {
-  previousList: ICity[];
+  previousList: CityStore[];
 };
 
 const PreviousSearches: React.FC<PreviousListProps> = ({ previousList }) => {
@@ -17,7 +17,8 @@ const PreviousSearches: React.FC<PreviousListProps> = ({ previousList }) => {
       {previousList.length ? (
         <List>
           {previousList.map((itemList) => {
-            return <PreviousItem key={itemList.city} city={itemList} />
+            const { lat, lng } = itemList.coords;
+            return <PreviousItem key={`${lat},${lng}`} city={itemList} />
           })}
         </List>
       ) : (

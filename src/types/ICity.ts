@@ -1,5 +1,14 @@
 export interface ICity {
-  city: string;
-  state: string;
-  country: string;
+  results: {
+    components: {
+      city: string;
+      country: string;
+      state_code: string;
+    }
+    geometry: {
+      lat: number;
+      lng: number;
+    }
+  }[]
+  total_results?: number;
 }

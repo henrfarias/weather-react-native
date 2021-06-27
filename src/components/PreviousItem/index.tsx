@@ -1,26 +1,29 @@
 import React from 'react';
-import { Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { ContainerItem, ContainerInfo, City, MoreInfo, ArrowButton } from './styles';
-import { ICity } from '../../types/ICity';
+import {
+  ContainerItem,
+  ContainerInfo,
+  City,
+  MoreInfo,
+  ArrowButton,
+} from './styles';
 import { colors } from '../../utils/variables';
+import { CityStore } from '../../store/reducers/previousCitys.reducer';
 
-const PreviousItem: React.FC<{ city: ICity }> = ({ city }) => {
+const PreviousItem: React.FC<{ city: CityStore }> = ({ city }) => {
+  const { city: currentCity, state, country } = city;
+
   return (
     <ContainerItem>
       <ContainerInfo>
-        <City>{city.city}</City>
+        <City>{currentCity}</City>
         <MoreInfo>
-          {city.state}, {city.country}
+          {state}, {country}
         </MoreInfo>
       </ContainerInfo>
       <ArrowButton>
-        <Ionicons 
-          name='arrow-forward' 
-          size={30}
-          color={colors.primary}
-        />
-      </ArrowButton> 
+        <Ionicons name='arrow-forward' size={30} color={colors.primary} />
+      </ArrowButton>
     </ContainerItem>
   );
 };

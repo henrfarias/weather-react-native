@@ -1,37 +1,24 @@
-import React, { useState, useEffect } from 'react';
-import { ActivityIndicator } from 'react-native';
+import React, { useState } from 'react';
 import * as Location from 'expo-location';
-import { Container, Label, ContainerButtons } from './styles';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Container, Label, ContainerButtons } from './styles';
+import { OPENCAGEDATA_URL, OPENCAGEDATA_KEY } from 'react-native-dotenv';
+import { useAppSelector, useAppDispatch } from '../../store/hooks';
+import { citySearched } from '../../store/reducers/previousCitys.reducer';
 
 import { colors } from '../../utils/variables';
 import ContainerScreen from '../../components/ContainerScreen';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import PreviousSearches from '../../components/PreviousSearches';
-
-const DUMMY_DATA = [
-  {
-    city: 'Rio de Janeiro',
-    state: 'RJ',
-    country: 'Brazil',
-  },
-  {
-    city: 'São Paulo',
-    state: 'SP',
-    country: 'Brazil',
-  },
-  {
-    city: 'Porto Alegre',
-    state: 'RS',
-    country: 'Brazil',
-  },
-];
+import { ICity } from '../../types/ICity';
 
 const Search: React.FC = () => {
-  const [city, setCity] = useState<string>('');
+  const [city, setCity] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isFetching, setIsFetching] = useState(false);
+  const historyCitySearches = useAppSelector((state) => state.searches) 
+  const dispatch = useAppDispatch();
 
   const getGeocode = async () => {
     setIsLoading(true);
@@ -63,6 +50,17 @@ const Search: React.FC = () => {
       return;
     }
     setIsFetching(true);
+    const data: ICity = await fetchOpenCageData();
+    dispatch(citySearched(data));
+    setIsFetching(false);
+  };
+
+  const fetchOpenCageData = async () => {
+    const response = await fetch(
+      `${OPENCAGEDATA_URL}?key=${OPENCAGEDATA_KEY}&q=${city}`
+    );
+    const data = await response.json();
+    return data;
   };
 
   return (
@@ -76,11 +74,7 @@ const Search: React.FC = () => {
           value={city}
         ></Input>
         <ContainerButtons>
-          <Button
-            title='Submit'
-            onPress={() => alert('Funcionou')}
-            loading={isFetching}
-          />
+          <Button title='Submit' onPress={getCoords} loading={isFetching} />
           <Button onPress={getGeocode} loading={isLoading}>
             <MaterialCommunityIcons
               name='crosshairs-gps'
@@ -89,7 +83,7 @@ const Search: React.FC = () => {
             />
           </Button>
         </ContainerButtons>
-        <PreviousSearches previousList={DUMMY_DATA} />
+        <PreviousSearches previousList={historyCitySearches} />
       </Container>
     </ContainerScreen>
   );

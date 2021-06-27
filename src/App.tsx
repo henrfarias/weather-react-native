@@ -1,16 +1,16 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import styled from 'styled-components/native';
-import { colors } from './utils/variables';
+import { Provider } from 'react-redux';
+import store from './store';
 
 import Routes from './routes';
 
 const App: React.FC = () => {
   return (
-    <>
+    <Provider store={store}>
       <Routes />
       <StatusBar style='auto' />
-    </>
+    </Provider>
   );
 }
 
