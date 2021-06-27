@@ -5,7 +5,7 @@ export const DetailsContainer = styled.View`
   position: absolute;
   bottom: 30px;
   width: 90%;
-  border: 0.5px solid ${colors.cyan};
+  border: 0.5px solid ${colors.primary};
   align-self: center;
   border-radius: 10px;
   overflow: hidden; 
@@ -20,7 +20,7 @@ export const DetailsRow = styled.View`
 export const DetailsBox = styled.View`
   flex: 1;
   padding: 20px 10px;
-  border: 0.4px solid ${colors.cyan};
+  border: 0.4px solid ${colors.primary};
 `;
 
 export const DetailsInfo = styled.View`

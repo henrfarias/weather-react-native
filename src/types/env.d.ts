@@ -1,4 +1,6 @@
 declare module 'react-native-dotenv' {
-  export const API_KEY: string;
-  export const BASE_URL: string;
+  export const WEATHER_KEY: string;
+  export const WEATHER_URL: string;
+  export const OPENCAGEDATA_KEY: string;
+  export const OPENCAGEDATA_URL: string;
 }

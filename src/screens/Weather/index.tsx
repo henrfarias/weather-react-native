@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { ActivityIndicator } from 'react-native';
 import * as Location from 'expo-location';
-import { API_KEY, BASE_URL } from 'react-native-dotenv';
+import { WEATHER_KEY, WEATHER_URL } from 'react-native-dotenv';
 import IWeather from '../../types/IWeather';
 
 import { colors } from '../../utils/variables';
-import { Container, TextStyle, View } from './styles';
+import { TextStyle, View } from './styles';
 import { StatusBar } from 'expo-status-bar';
 
+import ContainerScreen from '../../components/ContainerScreen';
 import UnitsPicker from '../../components/UnitsPicker';
 import ReloadIcon from '../../components/ReloadIcon';
 import WeatherInfo from '../../components/Weather/Info';
@@ -37,7 +38,7 @@ const Weather: React.FC = () => {
       });
 
       const { latitude: lat, longitude: lon } = location.coords;
-      const weatherUrl = `${BASE_URL}?key=${API_KEY}&q=${lat},${lon}&lang=pt`;
+      const weatherUrl = `${WEATHER_URL}?key=${WEATHER_KEY}&q=${lat},${lon}&lang=pt`;
 
       const response = await fetch(weatherUrl);
       const result = await response.json();
@@ -53,9 +54,7 @@ const Weather: React.FC = () => {
   }
   if(currentWeather) {
     return (
-      <Container
-        colors={[`${colors.background2}`, `${colors.background}`]}
-      >
+      <ContainerScreen>
         <UnitsPicker
           unitSystem={unitSystem}
           onChangeUnitSystem={setUnitSystem}
@@ -64,29 +63,25 @@ const Weather: React.FC = () => {
         <WeatherInfo currentWeather={currentWeather} currentUnit={unitSystem} />
         <WeatherDetails currentWeather={currentWeather} currentUnit={unitSystem} />
         <StatusBar style='auto' />
-      </Container>
+      </ContainerScreen>
     );
   } else if (errorMessage) {
     return (
-      <Container
-        colors={[`${colors.background2}`, `${colors.background}`]}
-      >
+      <ContainerScreen>
         <ReloadIcon load={loadApp} />
         <TextStyle>{errorMessage}</TextStyle>
         <StatusBar style='auto' />
-      </Container>
+      </ContainerScreen>
     )
   } else {
     return (
-      <Container
-        colors={[`${colors.background2}`, `${colors.background}`]}
-      >
+      <ContainerScreen>
         <View>
           <ReloadIcon load={loadApp} />
           <ActivityIndicator size='large' color={colors.primary} />
           <StatusBar style='auto' />
         </View>
-      </Container>
+      </ContainerScreen>
     );
   }
 
