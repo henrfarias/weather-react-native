@@ -17,6 +17,10 @@ const Routes: React.FC = () => {
           name='Search' 
           component={Search} 
         />
+        <Stack.Screen 
+          name='Weather'
+          component={Weather}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

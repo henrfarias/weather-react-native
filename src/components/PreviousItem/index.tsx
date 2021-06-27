@@ -18,7 +18,7 @@ const PreviousItem: React.FC<{ city: CityStore }> = ({ city }) => {
       <ContainerInfo>
         <City>{currentCity}</City>
         <MoreInfo>
-          {state}, {country}
+          {state && `${state} ,`}{country}
         </MoreInfo>
       </ContainerInfo>
       <ArrowButton>

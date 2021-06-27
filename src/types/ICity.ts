@@ -1,7 +1,9 @@
 export interface ICity {
   results: {
     components: {
-      city: string;
+      _type?: string;
+      city?: string;
+      town?: string;
       country: string;
       state_code: string;
     }

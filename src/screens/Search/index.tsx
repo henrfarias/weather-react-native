@@ -5,15 +5,16 @@ import { Container, Label, ContainerButtons } from './styles';
 import { OPENCAGEDATA_URL, OPENCAGEDATA_KEY } from 'react-native-dotenv';
 import { useAppSelector, useAppDispatch } from '../../store/hooks';
 import { citySearched } from '../../store/reducers/previousCitys.reducer';
+import { ICity } from '../../types/ICity';
+import { SearchStackProps } from '../../types/StackParams';
 
 import { colors } from '../../utils/variables';
 import ContainerScreen from '../../components/ContainerScreen';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import PreviousSearches from '../../components/PreviousSearches';
-import { ICity } from '../../types/ICity';
 
-const Search: React.FC = () => {
+const Search: React.FC<SearchStackProps> = ({ navigation }) => {
   const [city, setCity] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isFetching, setIsFetching] = useState(false);
@@ -53,6 +54,7 @@ const Search: React.FC = () => {
     const data: ICity = await fetchOpenCageData();
     dispatch(citySearched(data));
     setIsFetching(false);
+    // navigation.push('Weather', { coords: data.results[0].geometry});
   };
 
   const fetchOpenCageData = async () => {
