@@ -1,7 +1,12 @@
 import { StackScreenProps } from '@react-navigation/stack'
 
 export type StackParamsList = {
-  Weather?: {};
+  Weather?: {
+    coords: {
+      lat: number;
+      lng: number;
+    }
+  };
   Search?: {
     coords: {
       lat: number;

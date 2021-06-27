@@ -54,7 +54,7 @@ const Search: React.FC<SearchStackProps> = ({ navigation }) => {
     const data: ICity = await fetchOpenCageData();
     dispatch(citySearched(data));
     setIsFetching(false);
-    // navigation.push('Weather', { coords: data.results[0].geometry});
+    navigation.push('Weather', { coords: data.results[0].geometry});
   };
 
   const fetchOpenCageData = async () => {

@@ -13,9 +13,10 @@ import UnitsPicker from '../../components/UnitsPicker';
 import ReloadIcon from '../../components/ReloadIcon';
 import WeatherInfo from '../../components/Weather/Info';
 import WeatherDetails from '../../components/Weather/Details';
+import { WeatherStackProps } from '../../types/StackParams';
 
 
-const Weather: React.FC = () => {
+const Weather: React.FC<WeatherStackProps> = ({ route }) => {
   const [currentWeather, setCurrentWeather] = useState<IWeather | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [unitSystem, setUnitSystem] = useState<string | number>('metric');
@@ -28,17 +29,12 @@ const Weather: React.FC = () => {
     setCurrentWeather(null);
     setErrorMessage(null);
     try {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        setErrorMessage('Permission to access location was denied.');
+      if (!route.params) {
+        setErrorMessage('Não foi possível ler as coordenadas.');
         return;
       }
-      const location = await Location.getCurrentPositionAsync({
-        accuracy: 4,
-      });
-
-      const { latitude: lat, longitude: lon } = location.coords;
-      const weatherUrl = `${WEATHER_URL}?key=${WEATHER_KEY}&q=${lat},${lon}&lang=pt`;
+      const { lat, lng } = route.params.coords;
+      const weatherUrl = `${WEATHER_URL}?key=${WEATHER_KEY}&q=${lat},${lng}&lang=pt`;
 
       const response = await fetch(weatherUrl);
       const result = await response.json();
