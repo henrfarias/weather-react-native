@@ -23,7 +23,7 @@ const PreviousItem: React.FC<{ city: CityStore }> = ({ city }) => {
       <ContainerInfo>
         <City>{currentCity}</City>
         <MoreInfo>
-          {state && `${state} ,`}
+          {state && `${state}, `}
           {country}
         </MoreInfo>
       </ContainerInfo>
